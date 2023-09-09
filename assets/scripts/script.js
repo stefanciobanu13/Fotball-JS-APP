@@ -511,13 +511,6 @@ function checkTableContent() {
   return true;
 }
 
-// getDataButton.style.display = 'none';
-
-// setInterval(() => {
-//     const shouldShowButton = checkTableContent();
-//     getDataButton.style.display = shouldShowButton ? 'block' : 'none';
-// }, 500);
-
 function findFirstEmptyPosition() {
   const table = document.getElementById("teams");
   const rows = table.getElementsByTagName("tr");
@@ -544,65 +537,6 @@ function removeDeleteButtons() {
       const deleteButton = cells[j].querySelector(".delete-button");
       if (deleteButton) {
         deleteButton.remove();
-      }
-    }
-  }
-}
-
-function addValueToList2(etapa) {
-  var searchValue;
-  switch (etapa) {
-    case 1:
-      searchValue = document.getElementById("searchInput1").value;
-      break;
-    case 2:
-      searchValue = document.getElementById("searchInput2").value;
-      break;
-    case 3:
-      searchValue = document.getElementById("searchInput3").value;
-      break;
-    case 4:
-      searchValue = document.getElementById("searchInput4").value;
-      break;
-    case 5:
-      searchValue = document.getElementById("searchInput5").value;
-      break;
-    case 6:
-      searchValue = document.getElementById("searchInput6").value;
-      break;
-    case 7:
-      searchValue = document.getElementById("searchInput7").value;
-      break;
-  }
-
-  // search value in dataPlayer
-  for (var i = 0; i < dataPlayer.length; i++) {
-    var matchData = dataPlayer[i];
-    for (var key in matchData) {
-      if (matchData[key] === searchValue) {
-        var listClassName = "list-" + key;
-        var list = document.querySelector(
-          "#etapa" + etapa + " ul." + listClassName
-        );
-        console.log(`list: ${list}`);
-
-        // lista are 5 elemente?
-
-        var listItem = document.createElement("li");
-        listItem.textContent = searchValue;
-
-        // delete button
-        const deleteIcon = document.createElement("i");
-        deleteIcon.classList.add("fas", "fa-trash-alt", "delete-button");
-
-        // delete button listener + update score
-        deleteIcon.addEventListener("click", function () {
-          list.removeChild(listItem);
-          updateScoreMatch(etapa);
-        });
-        listItem.appendChild(deleteIcon);
-        list.appendChild(listItem);
-        updateScoreMatch(etapa);
       }
     }
   }
@@ -642,7 +576,6 @@ function addValueToList(etapa) {
       break;
   }
 
-
   // search value in dataPlayer
   for (var i = 0; i < dataPlayer.length; i++) {
     var matchData = dataPlayer[i];
@@ -671,76 +604,6 @@ function addValueToList(etapa) {
         list.appendChild(listItem);
         updateScoreMatch(etapa);
       }
-    }
-  }
-}
-
-function addValueToList2(etapa) {
-  console.log("inside addValueToList2");
-
-  var searchValue;
-  var selectElement;
-  switch (etapa) {
-    case 1:
-      searchValue = document.getElementById("searchInput8").value;
-      selectElement = document.getElementById("selectare8");
-      break;
-    case 2:
-      searchValue = document.getElementById("searchInput9").value;
-      selectElement = document.getElementById("selectare9");
-      break;
-    case 3:
-      searchValue = document.getElementById("searchInput10").value;
-      selectElement = document.getElementById("selectare10");
-      break;
-    case 4:
-      searchValue = document.getElementById("searchInput11").value;
-      selectElement = document.getElementById("selectare11");
-      break;
-    case 5:
-      searchValue = document.getElementById("searchInput12").value;
-      selectElement = document.getElementById("selectare12");
-      break;
-    case 6:
-      searchValue = document.getElementById("searchInput13").value;
-      selectElement = document.getElementById("selectare13");
-      break;
-    case 7:
-      searchValue = document.getElementById("searchInput14").value;
-      selectElement = document.getElementById("selectare14");
-      break;
-  }
-
-  // search value in dataPlayer
-  for (var i = 0; i < dataPlayer.length; i++) {
-    var matchData = dataPlayer[i];
-    for (var key in matchData) {
-      if (matchData[key] === searchValue) {
-        var listClassName = "list-" + selectElement.value;
-        //console.log(selectElement.value);
-        var list = document.querySelector(
-          "#etapa" + etapa + " ul." + listClassName
-        );
-
-        // lista are 5 elemente?
-        var listItem = document.createElement("li");
-        listItem.textContent = searchValue;
-
-        // delete button
-        const deleteIcon = document.createElement("i");
-        deleteIcon.classList.add("fas", "fa-trash-alt", "delete-button");
-
-        // delete button listener + update score
-        deleteIcon.addEventListener("click", function () {
-          list.removeChild(listItem);
-          updateScoreMatch(etapa);
-        });
-        listItem.appendChild(deleteIcon);
-        list.appendChild(listItem);
-
-        updateScoreMatch(etapa);
-      }
-      return;
     }
   }
 }
@@ -799,6 +662,7 @@ for (var etapa = 1; etapa <= 7; etapa++) {
 function updateScoreMatch(etapa) {
   resetClasamentValue();
   clearTable();
+
   const matches = document.querySelectorAll(".match");
   matches.forEach((match) => {
     const leftTeamGoalsUl = match.querySelector(".left-team-info ul");
@@ -816,21 +680,21 @@ function updateScoreMatch(etapa) {
   sortClasament();
   buildClasament(clasament);
   sortClasament();
-  if (etapa != 7) {
-    removeFinalsTeams();
-    addFinalsTeam(clasament);
-    const finale = document.querySelectorAll(".finala");
-    finale.forEach((finala) => {
-      const leftTeamGoalsUl = finala.querySelector(".left-team-info ul");
-      const rightTeamGoalsUl = finala.querySelector(".right-team-info ul");
 
-      const leftTeamGoalsCount = countNonNullLi(leftTeamGoalsUl);
-      const rightTeamGoalsCount = countNonNullLi(rightTeamGoalsUl);
+  removeFinalsTeams();
+  addFinalsTeam(clasament);
+  const finale = document.querySelectorAll(".finala");
+  finale.forEach((finala) => {
+    const leftTeamGoalsUl = finala.querySelector(".left-team-info ul");
+    const rightTeamGoalsUl = finala.querySelector(".right-team-info ul");
 
-      const scoreElement = finala.querySelector(".scor");
-      scoreElement.textContent = `${leftTeamGoalsCount} - ${rightTeamGoalsCount}`;
-    }, this);
-  }
+    const leftTeamGoalsCount = countNonNullLi(leftTeamGoalsUl);
+    const rightTeamGoalsCount = countNonNullLi(rightTeamGoalsUl);
+
+    const scoreElement = finala.querySelector(".scor");
+    scoreElement.textContent = `${leftTeamGoalsCount} - ${rightTeamGoalsCount}`;
+  }, this);
+
   removeTableRows("golgheteryBody");
   populateGolgheteryTable();
 }
